@@ -24,7 +24,8 @@ add_definitions("-pipe -g -O3 -Werror -march=native")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=gnu11")
 
 set(BDS_SOURCES
-    src/linked_list.c)
+  src/linked_list.c
+  src/darray.c)
 
 add_library(bds STATIC ${BDS_SOURCES})
 
@@ -32,3 +33,6 @@ include_directories(include)
 
 add_executable(llist_example test/llist_example.c)
 target_link_libraries(llist_example bds)
+
+add_executable(darray_example test/darray_example.c)
+target_link_libraries(darray_example bds)

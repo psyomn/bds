@@ -14,11 +14,7 @@ enum bds_linked_list_status {
 
 struct bds_linked_list* bds_linked_list_new();
 void bds_linked_list_free(struct bds_linked_list* list);
-enum bds_linked_list_status bds_linked_list_add(struct bds_linked_list* list, void* e);
+enum bds_linked_list_status bds_linked_list_add(struct bds_linked_list* list, uint64_t e);
 size_t bds_linked_list_size(struct bds_linked_list* list);
-enum bds_linked_list_status bds_linked_list_insert_before(struct bds_linked_list* target, struct bds_linked_list* new);
-enum bds_linked_list_status bds_linked_list_insert_after(struct bds_linked_list* target, struct bds_linked_list* new);
-enum bds_linked_list_status bds_linked_list_remove_before(struct bds_linked_list* target);
-enum bds_linked_list_status bds_linked_list_remove_after(struct bds_linked_list* target);
-
-
+uint64_t bds_linked_list_head_value(struct bds_linked_list* list);
+void bds_linked_list_head_chop(struct bds_linked_list* list);

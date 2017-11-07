@@ -5,11 +5,11 @@
 
 int main() {
   BDS_TEST("delete from empty list: ", {
-      struct bds_linked_list* llist = bds_linked_list_new();
-      bds_linked_list_delete(llist, 1);
-      bds_linked_list_delete(llist, 1);
-      bds_linked_list_free(llist);
-  });
+       struct bds_linked_list* llist = bds_linked_list_new();
+       assert(0 == bds_linked_list_delete(llist, 1));
+       assert(0 == bds_linked_list_delete(llist, 1));
+       bds_linked_list_free(llist);
+   });
 
   BDS_TEST("common example: ", {
       struct bds_linked_list* llist = bds_linked_list_new();
@@ -74,9 +74,54 @@ int main() {
       bds_linked_list_add(llist, 1);
       bds_linked_list_add(llist, 1);
       bds_linked_list_add(llist, 1);
+      assert(3 == bds_linked_list_size(llist));
       bds_linked_list_delete(llist, 1);
 
       assert(2 == bds_linked_list_size(llist));
+      assert(1 == bds_linked_list_head_value(llist));
+      assert(1 == bds_linked_list_tail_value(llist));
+      bds_linked_list_free(llist);
+    });
+
+  BDS_TEST("add 3 different elements, delete beginning: ", {
+      struct bds_linked_list* llist = bds_linked_list_new();
+      bds_linked_list_add(llist, 1);
+      bds_linked_list_add(llist, 2);
+      bds_linked_list_add(llist, 3);
+      assert(3 == bds_linked_list_size(llist));
+      bds_linked_list_delete(llist, 1);
+
+      assert(2 == bds_linked_list_size(llist));
+      assert(2 == bds_linked_list_head_value(llist));
+      assert(3 == bds_linked_list_tail_value(llist));
+      bds_linked_list_free(llist);
+    });
+
+  BDS_TEST("add 3 different elements, delete middle: ", {
+      struct bds_linked_list* llist = bds_linked_list_new();
+      bds_linked_list_add(llist, 1);
+      bds_linked_list_add(llist, 2);
+      bds_linked_list_add(llist, 3);
+      assert(3 == bds_linked_list_size(llist));
+      bds_linked_list_delete(llist, 2);
+
+      assert(2 == bds_linked_list_size(llist));
+      assert(1 == bds_linked_list_head_value(llist));
+      assert(3 == bds_linked_list_tail_value(llist));
+      bds_linked_list_free(llist);
+    });
+
+  BDS_TEST("add 3 different elements, delete tail: ", {
+      struct bds_linked_list* llist = bds_linked_list_new();
+      bds_linked_list_add(llist, 1);
+      bds_linked_list_add(llist, 2);
+      bds_linked_list_add(llist, 3);
+      assert(3 == bds_linked_list_size(llist));
+      bds_linked_list_delete(llist, 3);
+
+      assert(2 == bds_linked_list_size(llist));
+      assert(1 == bds_linked_list_head_value(llist));
+      assert(2 == bds_linked_list_tail_value(llist));
       bds_linked_list_free(llist);
     });
 

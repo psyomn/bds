@@ -29,7 +29,7 @@ void bds_linked_list_free(struct bds_linked_list* list)
 {
   assert(list);
   struct _node* curr = list->head;
-  struct _node* next = list->head->next;
+  struct _node* next = NULL;
 
   while (curr) {
     next = curr->next;
@@ -47,14 +47,19 @@ bds_linked_list_add(struct bds_linked_list* list, uint64_t e)
   struct _node* new = calloc(1, sizeof(struct _node));
   new->data = e;
 
-  if (list->tail)
-    list->tail->next = new;
-  else
-    list->head = new;
+  if (bds_linked_list_size(list) == 0) goto new_list;
+  else goto common;
 
-  list->tail = new;
+ new_list:
   list->size++;
+  list->head = new;
+  list->tail = new;
+  return bds_linked_list_success;
 
+ common:
+  list->size++;
+  list->tail->next = new;
+  list->tail = new;
   return bds_linked_list_success;
 }
 
@@ -65,8 +70,14 @@ size_t bds_linked_list_size(struct bds_linked_list* list)
 
 uint64_t bds_linked_list_head_value(struct bds_linked_list* list)
 {
-  assert(list && list->tail);
+  assert(list && list->head);
   return list->head->data;
+}
+
+uint64_t bds_linked_list_tail_value(struct bds_linked_list* list)
+{
+  assert(list && list->tail);
+  return list->tail->data;
 }
 
 void bds_linked_list_head_chop(struct bds_linked_list* list)
@@ -89,9 +100,9 @@ uint8_t bds_linked_list_delete(struct bds_linked_list* list, uint64_t element)
     if (curr->data == element) {
       if (prev)               prev->next = curr->next;
       if (curr == list->tail) list->tail = prev;
-      if (curr == list->head) list->head = prev;
+      if (curr == list->head) list->head = curr->next;
       free(curr);
-      list->size -= 1;
+      list->size--;
       return 1;
     }
     prev = curr;

@@ -25,7 +25,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -std=gnu11")
 
 set(BDS_SOURCES
   src/linked_list.c
-  src/darray.c)
+  src/darray.c
+  src/double_linked_list.c)
 
 add_library(bds STATIC ${BDS_SOURCES})
 
@@ -39,3 +40,4 @@ endfunction(bds_add_test)
 
 bds_add_test(llist_example)
 bds_add_test(darray_example)
+bds_add_test(double_linked_list_example)

@@ -43,7 +43,18 @@ static struct bds_unrolled_list_node* alloc_node(size_t capacity)
 void bds_unrolled_list_free(struct bds_unrolled_list* ulist)
 {
   assert(ulist);
-  assert(0);
+
+  struct bds_unrolled_list_node* curr = ulist->head;
+  struct bds_unrolled_list_node* temp = NULL;
+
+  while (curr)
+  {
+    temp = curr->next;
+    free(curr);
+    curr = temp;
+  }
+
+  free(ulist);
 }
 
 void bds_unrolled_list_push_back(struct bds_unrolled_list* ulist, uint64_t data)
@@ -59,6 +70,7 @@ void bds_unrolled_list_push_back(struct bds_unrolled_list* ulist, uint64_t data)
     ulist->head = ulist->tail = node;
     ulist->tail->data[0] = data;
     ulist->tail->index++;
+    ulist->num_nodes++;
     return;
   }
 
@@ -70,6 +82,7 @@ void bds_unrolled_list_push_back(struct bds_unrolled_list* ulist, uint64_t data)
     ulist->tail = node;
     ulist->tail->data[0] = data;
     ulist->tail->index++;
+    ulist->num_nodes++;
     return;
   }
 
@@ -77,4 +90,16 @@ void bds_unrolled_list_push_back(struct bds_unrolled_list* ulist, uint64_t data)
   ulist->tail->data[ulist->tail->index] = data;
   ulist->tail->index++;
   return;
+}
+
+size_t bds_unrolled_list_num_nodes(struct bds_unrolled_list* ulist)
+{
+  assert(ulist);
+  return ulist->num_nodes;
+}
+
+size_t bds_unrolled_list_tail_index(struct bds_unrolled_list* ulist)
+{
+  assert(ulist && ulist->tail);
+  return ulist->tail->index;
 }

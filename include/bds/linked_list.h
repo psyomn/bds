@@ -18,3 +18,4 @@ enum bds_linked_list_status bds_linked_list_add(struct bds_linked_list* list, ui
 size_t bds_linked_list_size(struct bds_linked_list* list);
 uint64_t bds_linked_list_head_value(struct bds_linked_list* list);
 void bds_linked_list_head_chop(struct bds_linked_list* list);
+uint8_t bds_linked_list_delete(struct bds_linked_list* list, uint64_t element);

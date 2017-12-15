@@ -78,3 +78,25 @@ void bds_linked_list_head_chop(struct bds_linked_list* list)
   free(prev_head);
   list->size--;
 }
+
+uint8_t bds_linked_list_delete(struct bds_linked_list* list, uint64_t element)
+{
+  assert(list);
+  struct _node* prev = NULL;
+  struct _node* curr = list->head;
+
+  while (curr) {
+    if (curr->data == element) {
+      if (prev)               prev->next = curr->next;
+      if (curr == list->tail) list->tail = prev;
+      if (curr == list->head) list->head = prev;
+      free(curr);
+      list->size -= 1;
+      return 1;
+    }
+    prev = curr;
+    curr = curr->next;
+  }
+
+  return 0;
+}

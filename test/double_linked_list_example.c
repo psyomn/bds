@@ -11,7 +11,7 @@ int main(void)
 
   assert(bds_double_linked_list_add_head(dlist, 1));
   assert(bds_double_linked_list_add_tail(dlist, 2));
-  assert(to_remove = bds_double_linked_list_add_head(dlist, 3));
+  assert((to_remove = bds_double_linked_list_add_head(dlist, 3)));
   assert(bds_double_linked_list_add_tail(dlist, 4));
 
   const size_t prev_size = bds_double_linked_list_size(dlist);

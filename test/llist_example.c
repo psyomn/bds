@@ -4,7 +4,7 @@
 
 int main() {
   {
-    printf("== Common Example==\n");
+    printf("== common Example: ");
 
     struct bds_linked_list* llist = bds_linked_list_new();
 
@@ -14,27 +14,24 @@ int main() {
 
     const size_t size_after_add = bds_linked_list_size(llist);
     assert(size_after_add == 3);
-
-    printf("linked list capacity: %zu\n", size_after_add);
-    printf("value of head: %zu\n", bds_linked_list_head_value(llist));
+    assert(bds_linked_list_head_value(llist) == 1);
 
     bds_linked_list_head_chop(llist);
     const size_t size_after_chop = bds_linked_list_size(llist);
-    printf("linked list size after head chop: %zu\n", size_after_chop);
-    printf("value of new head after chop: %zu\n", bds_linked_list_head_value(llist));
+    assert(size_after_chop == 2);
+    assert(bds_linked_list_head_value(llist) == 2);
 
     bds_linked_list_head_chop(llist);
     bds_linked_list_head_chop(llist);
     const size_t ultimate_karate_chop = bds_linked_list_size(llist);
-    printf("linked list size after all chop: %zu\n", ultimate_karate_chop);
+    assert(ultimate_karate_chop == 0);
 
     bds_linked_list_free(llist);
-
-    printf("== end common example ==\n");
+    printf("ok\n");
   }
 
   {
-    printf("== 20 elements ==\n");
+    printf("== 20 elements: ");
 
     struct bds_linked_list* llist = bds_linked_list_new();
     const size_t max_size = 20;
@@ -46,12 +43,36 @@ int main() {
     for (size_t x = 0; x < max_size; ++x) {
       const uint64_t value = bds_linked_list_head_value(llist);
       bds_linked_list_head_chop(llist);
-      printf("%zu, ", value);
+      assert(value == x);
     }
-    printf("\n");
 
     bds_linked_list_free(llist);
-    printf("== end 20 elements ==\n");
+    printf("ok\n");
+  }
+
+  {
+    printf("== add 5 elements, delete 2: ");
+    struct bds_linked_list* llist = bds_linked_list_new();
+
+    for (size_t x = 0; x < 5; ++x)
+      bds_linked_list_add(llist, x);
+
+    assert(5 == bds_linked_list_size(llist));
+
+    assert(1 == bds_linked_list_del(llist, 1));
+    assert(4 == bds_linked_list_size(llist));
+
+    assert(1 == bds_linked_list_del(llist, 2));
+    assert(3 == bds_linked_list_size(llist));
+
+    bds_linked_list_free(llist);
+    printf("ok\n");
+  }
+
+  {
+    printf("== add 1 elements, delete 3: ");
+
+    printf("ok\n");
   }
 
   return 0;

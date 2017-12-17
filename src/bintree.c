@@ -18,6 +18,7 @@ struct bds_bintree* bds_bintree_new(uint64_t data)
   return tree;
 }
 
+#include <stdio.h>
 void bds_bintree_free(struct bds_bintree* tree)
 {
   assert(tree);
@@ -28,11 +29,13 @@ void bds_bintree_free(struct bds_bintree* tree)
 
   while (bds_linked_list_size(list) != 0) {
     curr = (struct bds_bintree*) bds_linked_list_head_value(list);
-    bds_linked_list_add(list, (uint64_t) curr->left);
-    bds_linked_list_add(list, (uint64_t) curr->left);
+    if (curr->left)  bds_linked_list_add(list, (uint64_t) curr->left);
+    if (curr->right) bds_linked_list_add(list, (uint64_t) curr->right);
     bds_linked_list_delete(list, (uint64_t) curr);
     free(curr);
   }
+
+  bds_linked_list_free(list);
 }
 
 void bds_bintree_set_data(struct bds_bintree* tree, uint64_t data)
@@ -48,18 +51,18 @@ void bds_bintree_insert(struct bds_bintree* tree, uint64_t data)
 
   while (1) {
     if (data > curr->data) {
-      if (tree->right) curr = curr->right;
+      if (curr->right) curr = curr->right;
       else {
         struct bds_bintree* new_node = bds_bintree_new(data);
-        tree->right = new_node;
+        curr->right = new_node;
         return;
       }
     }
     else {
-      if (tree->left) curr = curr->left;
+      if (curr->left) curr = curr->left;
       else {
         struct bds_bintree* new_node = bds_bintree_new(data);
-        tree->left = new_node;
+        curr->left = new_node;
         return;
       }
     }

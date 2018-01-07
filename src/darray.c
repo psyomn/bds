@@ -82,3 +82,22 @@ size_t bds_darray_capacity(struct bds_darray* arr)
   assert(arr);
   return arr->capacity;
 }
+
+static int cmp_arr(const void* e1, const void* e2)
+{
+  uint64_t x = *(uint64_t*) e1, y = *(uint64_t*) e2;
+  if (x > y) return 1;
+  if (x < y) return -1;
+  return 0;
+}
+
+void bds_darray_sort(struct bds_darray* arr)
+{
+  assert(arr);
+
+  qsort(
+    arr->data,
+    arr->current_index,
+    sizeof(arr->data[0]),
+    cmp_arr);
+}

@@ -4,14 +4,6 @@
 #include <time.h>
 #include <stdio.h>
 
-#define BDS_TEST(label, expr)                                   \
-  do {                                                          \
-    printf("%s:%s# %s: ", __FILE__, __FUNCTION__, label);       \
-    expr;                                                       \
-    printf("ok\n");                                             \
-  } while (0)
-
-
 #define bds_test(l, fn, dt) _bds_test(__FILE__ ": " l, fn, dt)
 
 void _bds_test(const char* label, int (*func)(void **data), void **data)

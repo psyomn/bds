@@ -37,6 +37,7 @@ include_directories(include)
 function(bds_add_test name)
   add_executable(${name} test/${name}.c)
   target_link_libraries(${name} bds)
+  add_test(${name}_valgrind "valgrind" ./${name})
   add_test(${name} ${name})
 endfunction(bds_add_test)
 

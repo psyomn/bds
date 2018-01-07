@@ -1,6 +1,7 @@
 /* TODO: might not align well in memory if not in multiples of 2 */
 
 #include <bds/darray.h>
+#include <bds/common.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,4 +101,16 @@ void bds_darray_sort(struct bds_darray* arr)
     arr->current_index,
     sizeof(arr->data[0]),
     cmp_arr);
+}
+
+struct option bds_darray_linear_search(struct bds_darray* arr, uint64_t item)
+{
+  struct option found_values = {0};
+  for (size_t x = 0; x < arr->current_index; ++x) {
+    if (bds_darray_get(arr, x) == item) {
+      found_values.present = 1;
+      found_values.value = x;
+    }
+  }
+  return found_values;
 }

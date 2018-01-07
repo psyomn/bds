@@ -65,10 +65,32 @@ int sort_test(void **data)
   return 0;
 }
 
+int linear_search_test(void **data)
+{
+  (void) data;
+  struct bds_darray *arr = bds_darray_new(32);
+
+  bds_darray_add(arr, 10);
+  bds_darray_add(arr, 4);
+  bds_darray_add(arr, 5);
+  bds_darray_add(arr, 21);
+  bds_darray_add(arr, 32);
+
+  struct option found = bds_darray_linear_search(arr, 21);
+  struct option unfound = bds_darray_linear_search(arr, 1337);
+
+  assert(found.present == 1 && found.value == 3);
+  assert(unfound.present == 0);
+
+  bds_darray_free(arr);
+  return 0;
+}
+
 int main(void)
 {
   bds_test("simple test", simple_test, NULL);
   bds_test("add a lot test", add_a_lot_test, NULL);
   bds_test("sort test", sort_test, NULL);
+  bds_test("linear search test", linear_search_test, NULL);
   return 0;
 }

@@ -1,6 +1,9 @@
 #include <bds/test.h>
 #include <bds/bintree.h>
+#include <bds/rand.h>
+
 #include <stdio.h>
+#include <assert.h>
 
 int manual_intervention_test(void **data)
 {
@@ -37,9 +40,34 @@ int insert_test(void **data)
   return 0;
 }
 
+int search_test(void **data)
+{
+  (void) data;
+  struct bds_bintree* bintree = bds_bintree_new(30);
+  struct bds_lcg* lcg  = bds_lcg_lehmer();
+  uint64_t key_to_find = 0;
+
+  for (size_t i = 0; i < 100; ++i) {
+    const uint64_t num = bds_lcg_next(lcg);
+    bds_bintree_insert(bintree, num);
+    if (i == 50) key_to_find = num;
+  }
+
+  const struct option result = bds_bintree_search(bintree, key_to_find);
+  assert(result.present == 1);
+  assert(result.value == 0);
+
+  const struct option unfound = bds_bintree_search(bintree, 0);
+  assert(unfound.present == 0);
+
+  bds_bintree_free(bintree);
+  return 0;
+}
+
 int main(void)
 {
   bds_test("manual node insert test", manual_intervention_test, NULL);
   bds_test("insert test", insert_test, NULL);
+  bds_test("test simple search", search_test, NULL);
   return 0;
 }

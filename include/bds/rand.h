@@ -5,6 +5,8 @@
 struct bds_lcg;
 
 struct bds_lcg* bds_lcg_lehmer();
+struct bds_lcg* bds_lcg_ansic();
+struct bds_lcg* bds_lcg_minstd();
 void bds_lcg_free(struct bds_lcg* config);
 uint64_t bds_lcg_next(struct bds_lcg* config);
 uint64_t bds_lcg_curr(struct bds_lcg* config);

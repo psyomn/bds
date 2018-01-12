@@ -6,19 +6,24 @@ struct bds_lcg {
   uint64_t a;
   uint64_t c;
   uint64_t m;
-  uint64_t seed;
   uint64_t prev;
 };
 
-struct bds_lcg* bds_lcg_lehmer() {
-  struct bds_lcg* lcg = calloc(1, sizeof(*lcg));
-  lcg->a = 16807;
-  lcg->c = 0;
-  lcg->m = (1ULL << 61) - 1;
-  lcg->seed = 3; // anything but the value of m
-  lcg->prev = 3;
-  return lcg;
-}
+#define define_lcg(lcg_name, _a, _c, _m, _seed)             \
+  struct bds_lcg* bds_lcg_##lcg_name () {                   \
+    struct bds_lcg* lcg = calloc(1, sizeof(*lcg));          \
+    lcg->a = _a;                                            \
+    lcg->c = _c;                                            \
+    lcg->m = _m;                                            \
+    lcg->prev = _seed;                                      \
+    return lcg;                                             \
+  }
+
+/* Configurations from: "A Collection of selected pseudorandom number
+   generators with linear structures", Karl Entacher */
+define_lcg(lehmer,  16807,     0, (1ULL << 61) - 1, 3);
+define_lcg(ansic,   12345, (1ULL << 31) - 1, 1103515245, 12345);
+define_lcg(minstd,  16807,     1, (1ULL << 31) - 1, 0);
 
 void bds_lcg_free(struct bds_lcg* config)
 {

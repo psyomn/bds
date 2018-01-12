@@ -7,11 +7,10 @@ int test_lehmer_lcg(void **data)
   (void) data;
   struct bds_lcg* lehmer = bds_lcg_lehmer();
   const uint64_t rand_num = bds_lcg_next(lehmer);
-  printf("%zu\n", rand_num);
   assert(rand_num != 0);
   const uint64_t rand_num2 = bds_lcg_next(lehmer);
-  printf("%zu\n", rand_num2);
   assert(rand_num != rand_num2);
+  bds_lcg_free(lehmer);
   return 0;
 }
 

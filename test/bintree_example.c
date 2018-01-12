@@ -61,6 +61,7 @@ int search_test(void **data)
   assert(unfound.present == 0);
 
   bds_bintree_free(bintree);
+  bds_lcg_free(lcg);
   return 0;
 }
 

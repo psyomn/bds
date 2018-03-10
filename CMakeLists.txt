@@ -29,7 +29,8 @@ set(BDS_SOURCES
   src/double_linked_list.c
   src/bintree.c
   src/unrolled_list.c
-  src/rand.c)
+  src/rand.c
+  src/queue.c)
 
 add_library(bds STATIC ${BDS_SOURCES})
 
@@ -51,3 +52,4 @@ bds_add_test(double_linked_list_example)
 bds_add_test(bintree_example)
 bds_add_test(unrolled_list_example)
 bds_add_test(rand_example)
+bds_add_test(queue_example)
